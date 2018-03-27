@@ -14,7 +14,12 @@ namespace TP2_AnimateursWPF_AP
         {
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
-                Converters = new List<JsonConverter> { new PhoneNumberJsonConverter() }
+                Converters = new List<JsonConverter>
+                {
+                    new AbilityJsonConverter(),
+                    new PhoneNumberJsonConverter(),
+                    new RaceJsonConverter()
+                }
             };
         }
     }

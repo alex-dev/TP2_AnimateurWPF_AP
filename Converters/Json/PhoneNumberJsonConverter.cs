@@ -4,6 +4,7 @@ using TP2_AnimateursWPF_AP.Models;
 
 namespace TP2_AnimateursWPF_AP.Converters.Json
 {
+    /// <summary><see cref="JsonConverter"/> converting <see cref="PhoneNumber"/> in JSON.</summary>
     public class PhoneNumberJsonConverter : JsonConverter<PhoneNumber>
     {
         public override PhoneNumber ReadJson(

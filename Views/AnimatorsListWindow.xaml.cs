@@ -1,23 +1,48 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
-using TP2_AnimateursWPF_AP.Models;
+using System.Windows.Input;
+using TP2_AnimateursWPF_AP.ViewModels;
 
 namespace TP2_AnimateursWPF_AP
 {
-    /// <summary>
-    /// Logique d'interaction pour AnimatorsListWindow.xaml
-    /// </summary>
+    /// <summary>Logique d'interaction pour AnimatorsListWindow.xaml</summary>
     public partial class AnimatorsListWindow : Window
     {
+        #region Constructors
+
         public AnimatorsListWindow()
         {
             InitializeComponent();
         }
 
-        private void AnimatorsDataGrid_SelectionChanged(object sender, RoutedEventArgs eventArgs)
+        #endregion
+
+        #region Event Handlers
+
+        private void DtgAnimators_SelectionChanged(object sender, EventArgs eventArgs)
         {
-            var origin = eventArgs.OriginalSource as DataGrid;
-            MessageBox.Show((origin.SelectedItem is Animateur).ToString());
+            Details.DataContext = ((DataGrid)sender).CurrentItem ?? new AnimatorViewModel();
         }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (DtgAnimators.SelectedItem is null)
+            {
+                try
+                {
+                    ((AnimatorsViewModel)DataContext).Add((AnimatorViewModel)Details.DataContext);
+                    // TODO: Find a way to select the row added.
+                }
+                catch (ArgumentException) { }
+            }
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ((AnimatorsViewModel)DataContext).Remove((AnimatorViewModel)DtgAnimators.SelectedItem);
+        }
+
+        #endregion
     }
 }

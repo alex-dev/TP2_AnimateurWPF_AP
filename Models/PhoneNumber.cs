@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using TP2_AnimateursWPF_AP.Services;
 
 namespace TP2_AnimateursWPF_AP.Models
 {
+    /// <summary>Wrap phone numbers in a class with formatter and validator.</summary>
     public class PhoneNumber
     {
+        #region Static Services
+
         private static PhoneFormatter formatter;
 
         /// <summary>Force l'instantiation du formatteur de numéro.</summary>
@@ -16,11 +18,18 @@ namespace TP2_AnimateursWPF_AP.Models
         /// </remarks>
         static PhoneNumber()
         {
-            formatter = new PhoneFormatter();
+            formatter = PhoneFormatter.Create();
         }
 
-        private string number;
+        #endregion
 
+        #region Internal Data
+        private string number;
+        #endregion
+
+        #region Data
+
+        /// <summary>The actual phone number</summary>
         public string Number
         {
             get { return number; }
@@ -32,14 +41,31 @@ namespace TP2_AnimateursWPF_AP.Models
             }
         }
 
+        #endregion
+
+        #region Constructors
+
+        /// <summary>Basic constructor</summary>
+        /// <param name="number">Actual phone number. Formatting doesn't matter.</param>
+        /// <exception cref="ArgumentException">
+        ///   If <paramref name="number"/> is not a valid phone number as specified by <see cref="PhoneFormatter"/>.
+        /// </exception>
         public PhoneNumber(string number)
         {
             Number = number;
         }
 
+        #endregion
+
+        #region Conversions
+
+        /// <summary>Convert the number to a formatted string.</summary>
+        /// <returns>A formatted phone number</returns>
         public override string ToString()
         {
             return formatter.Format(Number);
         }
+
+        #endregion
     }
 }

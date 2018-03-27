@@ -2,25 +2,25 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ViewModels="clr-namespace:TP2_AnimateursWPF_AP.ViewModels" mc:Ignorable="d">
-  <UserControl.DataContext>
-    <ViewModels:AnimatorViewModel />
-  </UserControl.DataContext>
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+    DataContext="{StaticResource AnimatorViewModel}">
   <Grid>
     <StackPanel>
-      <StackPanel Orientation="Horizontal">
-        <Label Content="_Nom" Target="{Binding ElementName=LastNameInput}" Margin="5" />
-        <TextBox Name="LastNameInput" Text="{Binding Path=Value}" Margin="5" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal">
-        <Label Content="_Prénom" Target="{Binding ElementName=FirstNameInput}" Margin="5" />
-        <TextBox Name="FirstNameInput" Text="{Binding Path=Value}" Margin="5" />
-      </StackPanel>
-      <StackPanel Orientation="Horizontal">
-        <Label Content="_Téléphone" Target="{Binding ElementName=PhoneInput}" Margin="5" />
-        <TextBox Name="PhoneInput" Text="{Binding Path=Value}" Margin="5" />
-      </StackPanel>
+      <DockPanel>
+        <Label Content="_Nom" Target="{Binding ElementName=LastNameInput}" DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="LastNameInput" Text="{Binding Path=LastName, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" />
+      </DockPanel>
+      <DockPanel>
+        <Label Content="_Prénom" Target="{Binding ElementName=FirstNameInput}" DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="FirstNameInput" Text="{Binding Path=FirstName, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" />
+      </DockPanel>
+      <DockPanel>
+        <Label Content="_Téléphone" Target="{Binding ElementName=PhoneInput}" DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="PhoneInput" Text="{Binding Path=Phone, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" />
+      </DockPanel>
     </StackPanel>
   </Grid>
 </UserControl>

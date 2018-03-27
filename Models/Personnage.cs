@@ -10,8 +10,8 @@ namespace TP2_AnimateursWPF_AP.Models
       public string Nom { get; set; }
       public int PointsVie { get; set; }
       public int PointsDommage { get; set; }
-      public string Race { get; set; }
-      public List<string> LstHabiletes { get; set; }
+      public Race Race { get; set; }
+      public List<Ability> LstHabiletes { get; set; }
 
       /// <summary>
       /// Constructeur de la classe Personnage.
@@ -21,7 +21,7 @@ namespace TP2_AnimateursWPF_AP.Models
       /// <param name="pointsDommage">Le nombre de dommage infligés par les attaques du personnage.</param>
       /// <param name="race">La race du personnage.</param>
       /// <param name="lstHabiletes">La liste des habiletés du personnage.</param>
-      public Personnage(string nom, int pointsVie, int pointsDommage, string race, List<string> lstHabiletes)
+      public Personnage(string nom, int pointsVie, int pointsDommage, Race race, List<Ability> lstHabiletes)
       {
          Nom = nom;
          PointsVie = pointsVie;

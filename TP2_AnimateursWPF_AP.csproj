@@ -13,6 +13,21 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>D:\publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,10 +78,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AnimatorsDataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AnimatorsListWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,22 +86,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\Json\AbilityJsonConverter.cs" />
+    <Compile Include="Converters\Json\RaceJsonConverter.cs" />
     <Compile Include="Converters\Json\PhoneNumberJsonConverter.cs" />
+    <Compile Include="Models\Ability.cs" />
+    <Compile Include="Models\Race.cs" />
     <Compile Include="Services\PhoneFormatter.cs" />
     <Compile Include="Models\Animateur.cs" />
     <Compile Include="Models\Personnage.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
-    <Compile Include="Utilities\FullyObservableCollection.cs" />
-    <Compile Include="Utilities\INotifyItemPropertyChanged.cs" />
-    <Compile Include="Utilities\ItemPropertyChangedEventArgs.cs" />
-    <Compile Include="Utilities\ReadOnlyFullyObservableCollection.cs" />
     <Compile Include="ViewModels\AnimatorsViewModel.cs" />
     <Compile Include="ViewModels\AnimatorViewModel.cs" />
     <Compile Include="Views\AnimatorDetails.xaml.cs">
       <DependentUpon>AnimatorDetails.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimatorsDataGrid.xaml.cs">
-      <DependentUpon>AnimatorsDataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AnimatorsListWindow.xaml.cs">
       <DependentUpon>AnimatorsListWindow.xaml</DependentUpon>
@@ -127,6 +135,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
