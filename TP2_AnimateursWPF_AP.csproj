@@ -97,6 +97,7 @@
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="ViewModels\AnimatorsViewModel.cs" />
     <Compile Include="ViewModels\AnimatorViewModel.cs" />
+    <Compile Include="ViewModels\CharacterViewModel.cs" />
     <Compile Include="Views\AnimatorDetails.xaml.cs">
       <DependentUpon>AnimatorDetails.xaml</DependentUpon>
     </Compile>
