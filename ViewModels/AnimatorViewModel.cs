@@ -25,7 +25,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
             get { return Animator?.Prenom ?? _FirstName; }
             set
             {
-                if (Animator is null)
+                if (value is null || string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Un prénom ne peut pas être vide.");
+                }
+                else if (Animator is null)
                 {
                     _FirstName = value;
                 }
@@ -42,7 +46,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
             get { return Animator?.Nom ?? _LastName; }
             set
             {
-                if (Animator is null)
+                if (value is null || string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Un nom ne peut pas être vide.");
+                }
+                else if (Animator is null)
                 {
                     _LastName = value;
                 }
@@ -88,6 +96,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         public AnimatorViewModel(Animateur animator)
         {
             Animator = animator;
+
+            if (!(Animator.LstPersonnages is ObservableCollection<Personnage>))
+            {
+                Animator.LstPersonnages = new ObservableCollection<Personnage>(Animator.LstPersonnages);
+            }
         }
 
         #endregion
@@ -101,6 +114,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
             if (Animator is null && !(_FirstName is null || _LastName is null || _Phone is null))
             {
                 Animator = new Animateur(_FirstName, _LastName, _Phone);
+                Animator.LstPersonnages = new ObservableCollection<Personnage>(Animator.LstPersonnages);
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
