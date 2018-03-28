@@ -12,25 +12,28 @@
       <ColumnDefinition Width="2*" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition Height="1*" MaxHeight="75" />
+      <RowDefinition Height="1*" MaxHeight="35" />
       <RowDefinition Height="4*" />
     </Grid.RowDefinitions>
-    <DataGrid Name="DtgAnimators" ItemsSource="{Binding Animators}" 
+    <DataGrid Name="DtgAnimators" ItemsSource="{Binding Animators}"
         SelectionChanged="DtgAnimators_SelectionChanged" SelectionMode="Single"
         SelectionUnit="FullRow" AutoGenerateColumns="False" ColumnWidth="*" Margin="5 0"
         Grid.Column="0" Grid.RowSpan="2">
+      <!--<DataGrid.RowValidationRules>
+        <StaticResource ResourceKey="ValidableValidationRule" />
+      </DataGrid.RowValidationRules>-->
       <DataGrid.Columns>
         <DataGridTextColumn Header="Prénom" Binding="{Binding FirstName}" IsReadOnly="False" />
         <DataGridTextColumn Header="Nom" Binding="{Binding LastName}" IsReadOnly="True" />
         <DataGridTextColumn Header="Téléphone" Binding="{Binding Phone}"
             IsReadOnly="True" CanUserSort="False" />
-        <DataGridTextColumn Header="Personages" Binding="{Binding Characters.Count, TargetNullValue=0}"
+        <DataGridTextColumn Header="Personages" Binding="{Binding Characters.Count}"
             IsReadOnly="True" />
       </DataGrid.Columns>
+      <!--<DataGridRow Style="{StaticResource ValidationRow}" />-->
     </DataGrid>
     <StackPanel Grid.Column="1" Grid.Row="0">
       <Button Click="BtnDelete_Click" Content="Supprimer" Margin="5" />
-      <Button Click="BtnAdd_Click" Content="Ajouter" Margin="5" />
     </StackPanel>
     <views:AnimatorDetails x:Name="Details" Grid.Column="1" Grid.Row="1" />
   </Grid>

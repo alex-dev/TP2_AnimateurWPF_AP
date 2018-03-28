@@ -7,7 +7,7 @@ using TP2_AnimateursWPF_AP.Models;
 
 namespace TP2_AnimateursWPF_AP.ViewModels
 {
-    class CharacterViewModel : INotifyPropertyChanged
+    public class CharacterViewModel : INotifyPropertyChanged
     {
         #region Internal Data
         private Personnage Character { get; set; }
@@ -100,10 +100,12 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 OnPropertyChanged();
             }
         }
-        //public ObservableCollection<Ability>
+        public ICollection<Ability> Abilities
+        {
+            get { return Character.LstHabiletes; }
+        }
 
         #endregion
-
 
         #region Constructors
 
@@ -127,7 +129,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         {
             if (Character is null && !(_Name is null || _HitPoints is null || _DamagePoints is null))
             {
-                Character = new Personnage(_Name, (int)_HitPoints, (int)_DamagePoints, null, new ObservableCollection<Ability>());
+                Character = new Personnage(_Name, (int)_HitPoints, (int)_DamagePoints, _Race, new List<Ability>());
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));

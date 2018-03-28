@@ -5,21 +5,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
     DataContext="{StaticResource AnimatorViewModel}">
   <Grid>
-    <StackPanel>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="4*" />
+      <RowDefinition Height="*" MaxHeight="35" />
+    </Grid.RowDefinitions>
+    <StackPanel Grid.Row="0">
       <DockPanel>
-        <Label Content="_Nom" Target="{Binding ElementName=LastNameInput}" DockPanel.Dock="Left" Margin="5" />
-        <TextBox Name="LastNameInput" Text="{Binding Path=LastName, ValidatesOnExceptions=True}"
-            DockPanel.Dock="Right" Margin="5" />
+        <Label Content="_Nom" Target="{Binding ElementName=LastNameInput}"
+            DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="LastNameInput"
+            Text="{Binding Path=LastName, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center"
+            Style="{StaticResource ValidationBox}" />
       </DockPanel>
       <DockPanel>
-        <Label Content="_Prénom" Target="{Binding ElementName=FirstNameInput}" DockPanel.Dock="Left" Margin="5" />
-        <TextBox Name="FirstNameInput" Text="{Binding Path=FirstName, ValidatesOnExceptions=True}"
-            DockPanel.Dock="Right" Margin="5" />
+        <Label Content="_Prénom" Target="{Binding ElementName=FirstNameInput}"
+            DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="FirstNameInput"
+            Text="{Binding Path=FirstName, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center"
+            Style="{StaticResource ValidationBox}" />
       </DockPanel>
       <DockPanel>
-        <Label Content="_Téléphone" Target="{Binding ElementName=PhoneInput}" DockPanel.Dock="Left" Margin="5" />
+        <Label Content="_Téléphone" Target="{Binding ElementName=PhoneInput}"
+            DockPanel.Dock="Left" Margin="5" />
         <TextBox Name="PhoneInput" Text="{Binding Path=Phone, ValidatesOnExceptions=True}"
-            DockPanel.Dock="Right" Margin="5" />
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center"
+            Style="{StaticResource ValidationBox}" />
       </DockPanel>
     </StackPanel>
   </Grid>

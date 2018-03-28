@@ -1,7 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using TP2_AnimateursWPF_AP.ViewModels;
 
 namespace TP2_AnimateursWPF_AP
@@ -14,6 +14,7 @@ namespace TP2_AnimateursWPF_AP
         public AnimatorsListWindow()
         {
             InitializeComponent();
+            ((AnimatorViewModel)Details.DataContext).PropertyChanged += Details_PropertyChanged;
         }
 
         #endregion
@@ -22,19 +23,22 @@ namespace TP2_AnimateursWPF_AP
 
         private void DtgAnimators_SelectionChanged(object sender, EventArgs eventArgs)
         {
-            Details.DataContext = ((DataGrid)sender).CurrentItem ?? new AnimatorViewModel();
+            if (((DataGrid)sender).CurrentItem is null)
+            {
+                Details.DataContext = new AnimatorViewModel();
+                ((AnimatorViewModel)Details.DataContext).PropertyChanged += Details_PropertyChanged;
+            }
+            else
+            {
+                Details.DataContext = ((DataGrid)sender).CurrentItem;
+            }
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        private void Details_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (DtgAnimators.SelectedItem is null)
+            if (!((AnimatorsViewModel)DataContext).Animators.Contains((AnimatorViewModel)sender))
             {
-                try
-                {
-                    ((AnimatorsViewModel)DataContext).Add((AnimatorViewModel)Details.DataContext);
-                    // TODO: Find a way to select the row added.
-                }
-                catch (ArgumentException) { }
+                ((AnimatorsViewModel)DataContext).Add((AnimatorViewModel)Details.DataContext);
             }
         }
 

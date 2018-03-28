@@ -74,6 +74,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Validators\IValidable.cs" />
+    <Compile Include="Validators\ValidableValidationRule.cs" />
+    <Compile Include="Views\CharacterListWindow.xaml.cs">
+      <DependentUpon>CharacterListWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\AnimatorDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +102,7 @@
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="ViewModels\AnimatorsViewModel.cs" />
     <Compile Include="ViewModels\AnimatorViewModel.cs" />
+    <Compile Include="ViewModels\CharactersViewModel.cs" />
     <Compile Include="ViewModels\CharacterViewModel.cs" />
     <Compile Include="Views\AnimatorDetails.xaml.cs">
       <DependentUpon>AnimatorDetails.xaml</DependentUpon>
@@ -105,6 +111,10 @@
       <DependentUpon>AnimatorsListWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\CharacterListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -148,5 +158,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

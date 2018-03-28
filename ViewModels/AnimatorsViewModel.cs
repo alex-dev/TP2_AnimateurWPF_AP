@@ -16,10 +16,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         public ReadOnlyObservableCollection<AnimatorViewModel> Animators
         {
-            get
-            {
-                return new ReadOnlyObservableCollection<AnimatorViewModel>(_Animators);
-            }
+            get { return new ReadOnlyObservableCollection<AnimatorViewModel>(_Animators); }
         }
 
         #endregion
@@ -40,18 +37,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         /// <summary>Ajoute un animateur à la liste.</summary>
         /// <param name="animator">L'animateur à ajouter</param>
-        /// <exception cref="ArgumentException"><paramref name="animator"/> n'est pas valide.</exception>
         public void Add(AnimatorViewModel animator)
         {
-            if (animator.Characters is null || animator.FirstName is null
-                || animator.LastName is null || animator.Phone is null)
-            {
-                throw new ArgumentException("Cet animateur n'est pas valide.");
-            }
-            else
-            {
-                _Animators.Add(animator);
-            }
+            _Animators.Add(animator);
         }
 
         /// <summary>Ajoute un animateur à la liste.</summary>

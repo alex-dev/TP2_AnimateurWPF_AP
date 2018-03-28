@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using TP2_AnimateursWPF_AP.Models;
+using TP2_AnimateursWPF_AP.Validators;
 
 namespace TP2_AnimateursWPF_AP.ViewModels
 {
     /// <summary>
     ///   Interface la vue à l'<see cref="Animateur"/> tout en implémentant <see cref="INotifyPropertyChanged"/>.
     /// </summary>
-    public class AnimatorViewModel : INotifyPropertyChanged
+    public class AnimatorViewModel : INotifyPropertyChanged, IValidable
     {
         #region Internal Data
         private Animateur Animator { get; set; }
@@ -79,9 +81,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 OnPropertyChanged();
             }
         }
-        public ReadOnlyCollection<Personnage> Characters
+        public IReadOnlyCollection<Personnage> Characters
         {
-            get { return new ReadOnlyCollection<Personnage>(Animator?.LstPersonnages); }
+            get { return Animator?.LstPersonnages ?? new List<Personnage>(); }
         }
 
         #endregion
@@ -96,11 +98,15 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         public AnimatorViewModel(Animateur animator)
         {
             Animator = animator;
+        }
 
-            if (!(Animator.LstPersonnages is ObservableCollection<Personnage>))
-            {
-                Animator.LstPersonnages = new ObservableCollection<Personnage>(Animator.LstPersonnages);
-            }
+        #endregion
+
+        #region Methods
+
+        public CharactersViewModel CreateCharactersViewModel()
+        {
+            return new CharactersViewModel(Animator.LstPersonnages);
         }
 
         #endregion
@@ -111,13 +117,21 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (Animator is null && !(_FirstName is null || _LastName is null || _Phone is null))
+            if (Animator is null && IsValid(null))
             {
                 Animator = new Animateur(_FirstName, _LastName, _Phone);
-                Animator.LstPersonnages = new ObservableCollection<Personnage>(Animator.LstPersonnages);
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region IValidable
+
+        public bool IsValid(CultureInfo culture)
+        {
+            return !(FirstName is null || LastName is null || Phone is null);
         }
 
         #endregion
