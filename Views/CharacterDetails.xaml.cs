@@ -1,4 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
+using TP2_AnimateursWPF_AP.Models;
+using TP2_AnimateursWPF_AP.Utilities;
+using TP2_AnimateursWPF_AP.ViewModels;
 
 namespace TP2_AnimateursWPF_AP.Views
 {
@@ -13,5 +17,22 @@ namespace TP2_AnimateursWPF_AP.Views
         }
 
         #endregion
+
+        private void LstRace_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(((ListBox)sender).SelectedItem is null))
+            {
+                ((CharacterViewModel)DataContext).Race = ((Selectable<Race>)((ListBox)sender).SelectedItem).Item;
+            }
+        }
+
+        private void LstAbilities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(((ListBox)sender).SelectedItem is null))
+            {
+                ((CharacterViewModel)DataContext).Abilities = (from Selectable<Ability> selectable in ((ListBox)sender).SelectedItems
+                                                               select selectable.Item).ToList();
+            }
+        }
     }
 }

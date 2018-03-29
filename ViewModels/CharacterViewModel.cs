@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using TP2_AnimateursWPF_AP.Models;
+using TP2_AnimateursWPF_AP.Utilities;
 using TP2_AnimateursWPF_AP.Validators;
 
 namespace TP2_AnimateursWPF_AP.ViewModels
@@ -21,8 +26,8 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #region Data
 
-        public HashSet<Ability> AllAbilities { get; private set; }
-        public HashSet<Race> AllRaces { get; private set; }
+        public ObservableCollection<Selectable<Ability>> AllAbilities { get; private set; }
+        public ObservableCollection<Selectable<Race>> AllRaces { get; private set; }
 
         public string Name
         {
@@ -107,6 +112,19 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         public ICollection<Ability> Abilities
         {
             get { return Character?.LstHabiletes ?? _Abilities ?? (_Abilities = new List<Ability>()); }
+            set
+            {
+                if (Character is null)
+                {
+                    _Abilities = value.ToList();
+                }
+                else
+                {
+                    Character.LstHabiletes = value.ToList();
+                }
+
+                OnPropertyChanged();
+            }
         }
 
         #endregion
@@ -120,9 +138,22 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         /// <param name="animator">Animateur lié au vue modèle</param>
         public CharacterViewModel(Personnage character)
         {
-            AllAbilities = Ability.Abilities;
-            AllRaces = Race.Races;
             Character = character;
+
+            {
+                AllAbilities = new ObservableCollection<Selectable<Ability>>(
+                    from ability in Ability.Abilities
+                    select new Selectable<Ability>(ability, Abilities.Contains(ability)));
+                WeakEventManager<ObservableCollection<Ability>, NotifyCollectionChangedEventArgs>
+                    .AddHandler(Ability.Abilities, "CollectionChanged", Abilities_CollectionChanged);
+            }
+            {
+                AllRaces = new ObservableCollection<Selectable<Race>>(
+                    from race in Race.Races
+                    select new Selectable<Race>(race, Race == race));
+                WeakEventManager<ObservableCollection<Race>, NotifyCollectionChangedEventArgs>
+                    .AddHandler(Race.Races, "CollectionChanged", Races_CollectionChanged);
+            }
         }
 
         #endregion
@@ -138,6 +169,36 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #endregion
 
+        #region Event Handlers
+
+        /// <summary><see cref="ObservableCollection{Ability}.CollectionChanged"/> handler.</summary>
+        public void Abilities_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            foreach (Ability ability in e.OldItems)
+            {
+                AllAbilities.Remove(AllAbilities.Single(item => ability == item.Item));
+            }
+            foreach (Ability ability in e.NewItems)
+            {
+                AllAbilities.Add(new Selectable<Ability>(ability));
+            }
+        }
+
+        /// <summary><see cref="ObservableCollection{Race}.CollectionChanged"/> handler.</summary>
+        public void Races_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            foreach (Race race in e.OldItems)
+            {
+                AllRaces.Remove(AllRaces.Single(item => race == item.Item));
+            }
+            foreach (Race race in e.NewItems)
+            {
+                AllRaces.Add(new Selectable<Race>(race));
+            }
+        }
+
+        #endregion
+
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -149,7 +210,10 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 Character = new Personnage(_Name, (int)_HitPoints, (int)_DamagePoints, _Race, new List<Ability>());
             }
 
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (!(PropertyChanged is null))
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion

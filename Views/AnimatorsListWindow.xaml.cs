@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TP2_AnimateursWPF_AP.Models;
 using TP2_AnimateursWPF_AP.ViewModels;
 
 namespace TP2_AnimateursWPF_AP
@@ -15,7 +17,22 @@ namespace TP2_AnimateursWPF_AP
         public AnimatorsListWindow()
         {
             InitializeComponent();
+            ((AnimatorsViewModel)DataContext).CollectionChanged += ((App)Application.Current).Application_DetectedChange;
             ((AnimatorViewModel)Details.DataContext).PropertyChanged += Details_PropertyChanged;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void Save()
+        {
+            ((App)Application.Current).SaveChanges(
+                from animator in ((AnimatorsViewModel)DataContext).Animators
+                where animator.IsValid(null)
+                select animator.Extract(),
+                Ability.Abilities,
+                Race.Races);
         }
 
         #endregion
@@ -52,6 +69,18 @@ namespace TP2_AnimateursWPF_AP
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
             ((AnimatorsViewModel)DataContext).Remove((AnimatorViewModel)DtgAnimators.SelectedItem);
+        }
+
+        private void Window_Closing(object sender, EventArgs e)
+        {
+            const string message = "Voulez-vous enregistrer vos modifications?";
+            const string title = "Sauvegarde";
+
+            if (((App)Application.Current).IsDirty
+                && MessageBox.Show(message, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                Save();
+            }
         }
 
         #endregion

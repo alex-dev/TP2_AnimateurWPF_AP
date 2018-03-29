@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Newtonsoft.Json;
 
 namespace TP2_AnimateursWPF_AP.Models
@@ -10,9 +12,18 @@ namespace TP2_AnimateursWPF_AP.Models
     {
         #region Static
 
-        private const string FileName = "abilities.json";
+        private const string FileName = "Abilities.json";
+        private static ObservableCollection<Ability> abilities;
 
-        public static HashSet<Ability> Abilities { get; private set; }
+        public static ObservableCollection<Ability> Abilities
+        {
+            get { return abilities; }
+            private set
+            {
+                abilities = value;
+                abilities.CollectionChanged += ((App)Application.Current).Application_DetectedChange;
+            }
+        }
 
         static Ability()
         {
@@ -23,9 +34,9 @@ namespace TP2_AnimateursWPF_AP.Models
         /// <remarks>
         ///   Si le fichier ne peut être lu, une liste d'habiletés sera construite à partir des habiletés des personages.
         /// </remarks>
-        private static HashSet<Ability> Load()
+        private static ObservableCollection<Ability> Load()
         {
-            HashSet<Ability> data;
+            ObservableCollection<Ability> data;
             string json = null;
 
             try
@@ -38,16 +49,18 @@ namespace TP2_AnimateursWPF_AP.Models
 
             try
             {
-                if ((data = JsonConvert.DeserializeObject<HashSet<Ability>>(json)) is null)
+                if ((data = JsonConvert.DeserializeObject<ObservableCollection<Ability>>(json)) is null)
                 {
                     throw new JsonException("Liste vide dans " + FileName);
                 }
             }
             catch
             {
-                data = new HashSet<Ability>(Animateur.ChargerListeAnimateurs()
-                    .SelectMany(animator => animator.LstPersonnages
-                        .SelectMany(character => character.LstHabiletes)));
+                data = new ObservableCollection<Ability>(
+                    Animateur.ChargerListeAnimateurs()
+                        .SelectMany(animator => animator.LstPersonnages
+                            .SelectMany(character => character.LstHabiletes))
+                        .Distinct());
             }
 
             return data;
@@ -83,12 +96,22 @@ namespace TP2_AnimateursWPF_AP.Models
 
         public bool Equals(Ability other)
         {
-            return Name == other.Name;
+            return EqualityComparer<string>.Default.Equals(Name, other.Name);
         }
 
         public override int GetHashCode()
         {
             return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
+        }
+
+        public static bool operator ==(Ability self, Ability other)
+        {
+            return self?.Equals(other) ?? false;
+        }
+
+        public static bool operator !=(Ability self, Ability other)
+        {
+            return !(self?.Equals(other) ?? false);
         }
 
         #endregion

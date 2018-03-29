@@ -113,6 +113,13 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 CharactersUpdate);
         }
 
+        public Animateur Extract()
+        {
+            return IsValid(null)
+                ? Animator
+                : throw new InvalidOperationException("Animator is in an invalid state.");
+        }
+
         #endregion
 
         #region INotifyPropertyChanged
@@ -126,7 +133,10 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 Animator = new Animateur(_FirstName, _LastName, _Phone) { LstPersonnages = _Characters };
             }
 
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            if (!(PropertyChanged is null))
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         private void CharactersUpdate(CharactersViewModel characters)

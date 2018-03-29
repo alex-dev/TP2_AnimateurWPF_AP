@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using TP2_AnimateursWPF_AP.Models;
 
 namespace TP2_AnimateursWPF_AP.ViewModels
 {
     /// <summary>Vue modèle gérant un ensemble d'animateurs via <see cref="AnimatorViewModel"/>.</summary>
-    public class AnimatorsViewModel
+    public class AnimatorsViewModel : INotifyCollectionChanged
     {
         #region Internal Data
         private ObservableCollection<AnimatorViewModel> _Animators { get; set; }
@@ -53,6 +54,16 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         public void Remove(AnimatorViewModel animator)
         {
             _Animators.Remove(animator);
+        }
+
+        #endregion
+
+        #region INotifyCollectionChanged
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged
+        {
+            add { _Animators.CollectionChanged += value; }
+            remove { _Animators.CollectionChanged -= value; }
         }
 
         #endregion

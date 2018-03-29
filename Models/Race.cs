@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Newtonsoft.Json;
 
 namespace TP2_AnimateursWPF_AP.Models
@@ -10,10 +12,19 @@ namespace TP2_AnimateursWPF_AP.Models
     {
         #region Static
 
-        private const string FileName = "abilities.json";
+        private const string FileName = "Races.json";
 
-        public static HashSet<Race> Races { get; private set; }
+        private static ObservableCollection<Race> races;
 
+        public static ObservableCollection<Race> Races
+        {
+            get { return races; }
+            private set
+            {
+                races = value;
+                races.CollectionChanged += ((App)Application.Current).Application_DetectedChange;
+            }
+        }
         static Race()
         {
             Races = Load();
@@ -23,9 +34,9 @@ namespace TP2_AnimateursWPF_AP.Models
         /// <remarks>
         ///   Si le fichier ne peut être lu, une liste de races sera construite à partir des races des personages.
         /// </remarks>
-        private static HashSet<Race> Load()
+        private static ObservableCollection<Race> Load()
         {
-            HashSet<Race> data;
+            ObservableCollection<Race> data;
             string json = null;
 
             try
@@ -38,16 +49,18 @@ namespace TP2_AnimateursWPF_AP.Models
 
             try
             {
-                if ((data = JsonConvert.DeserializeObject<HashSet<Race>>(json)) is null)
+                if ((data = JsonConvert.DeserializeObject<ObservableCollection<Race>>(json)) is null)
                 {
                     throw new JsonException("Liste vide dans " + FileName);
                 }
             }
             catch
             {
-                data = new HashSet<Race>(Animateur.ChargerListeAnimateurs()
-                    .SelectMany(animator => (from character in animator.LstPersonnages
-                                             select character.Race)));
+                data = new ObservableCollection<Race>(
+                    Animateur.ChargerListeAnimateurs()
+                        .SelectMany(animator => (from character in animator.LstPersonnages
+                                                 select character.Race))
+                        .Distinct());
             }
 
             return data;
@@ -83,12 +96,22 @@ namespace TP2_AnimateursWPF_AP.Models
 
         public bool Equals(Race other)
         {
-            return Name == other.Name;
+            return EqualityComparer<string>.Default.Equals(Name, other.Name);
         }
 
         public override int GetHashCode()
         {
             return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
+        }
+
+        public static bool operator ==(Race self, Race other)
+        {
+            return self?.Equals(other) ?? false;
+        }
+
+        public static bool operator !=(Race self, Race other)
+        {
+            return !(self?.Equals(other) ?? false);
         }
 
         #endregion
