@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using TP2_AnimateursWPF_AP.Models;
 using TP2_AnimateursWPF_AP.Validators;
@@ -18,6 +19,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         private string _FirstName { get; set; }
         private string _LastName { get; set; }
         private PhoneNumber _Phone { get; set; }
+        private List<Personnage> _Characters { get; set; }
         #endregion
 
         #region Data
@@ -83,7 +85,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         }
         public IReadOnlyCollection<Personnage> Characters
         {
-            get { return Animator?.LstPersonnages ?? new List<Personnage>(); }
+            get { return Animator?.LstPersonnages ?? _Characters ?? (_Characters = new List<Personnage>()); }
         }
 
         #endregion
@@ -104,9 +106,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #region Methods
 
-        public CharactersViewModel CreateCharactersViewModel()
+        public Tuple<CharactersViewModel, Action<CharactersViewModel>> CreateCharactersViewModel()
         {
-            return new CharactersViewModel(Animator.LstPersonnages);
+            return Tuple.Create<CharactersViewModel, Action<CharactersViewModel>>(
+                new CharactersViewModel(Characters),
+                CharactersUpdate);
         }
 
         #endregion
@@ -119,10 +123,28 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         {
             if (Animator is null && IsValid(null))
             {
-                Animator = new Animateur(_FirstName, _LastName, _Phone);
+                Animator = new Animateur(_FirstName, _LastName, _Phone) { LstPersonnages = _Characters };
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void CharactersUpdate(CharactersViewModel characters)
+        {
+            var data = from character in characters.Characters
+                       where character.IsValid(null)
+                       select character.Extract();
+
+            if (Animator is null)
+            {
+                _Characters = data.ToList();
+            }
+            else
+            {
+                Animator.LstPersonnages = data.ToList();
+            }
+
+            OnPropertyChanged("Characters");
         }
 
         #endregion
@@ -131,7 +153,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         public bool IsValid(CultureInfo culture)
         {
-            return !(FirstName is null || LastName is null || Phone is null);
+            return !(string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName) || Phone is null);
         }
 
         #endregion

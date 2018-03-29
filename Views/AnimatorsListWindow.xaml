@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:TP2_AnimateursWPF_AP.Views" mc:Ignorable="d"
-    Title="MainWindow" Height="350" Width="525"
+    Title="MainWindow" Height="300" Width="750"
     DataContext="{StaticResource AnimatorsViewModel}">
   <Grid>
     <Grid.ColumnDefinitions>
@@ -16,12 +16,13 @@
       <RowDefinition Height="4*" />
     </Grid.RowDefinitions>
     <DataGrid Name="DtgAnimators" ItemsSource="{Binding Animators}"
-        SelectionChanged="DtgAnimators_SelectionChanged" SelectionMode="Single"
+        SelectionChanged="DtgAnimators_SelectionChanged"
+        MouseDown="DtgAnimators_MouseDown" SelectionMode="Single"
         SelectionUnit="FullRow" AutoGenerateColumns="False" ColumnWidth="*" Margin="5 0"
         Grid.Column="0" Grid.RowSpan="2">
-      <!--<DataGrid.RowValidationRules>
+      <DataGrid.RowValidationRules>
         <StaticResource ResourceKey="ValidableValidationRule" />
-      </DataGrid.RowValidationRules>-->
+      </DataGrid.RowValidationRules>
       <DataGrid.Columns>
         <DataGridTextColumn Header="Prénom" Binding="{Binding FirstName}" IsReadOnly="False" />
         <DataGridTextColumn Header="Nom" Binding="{Binding LastName}" IsReadOnly="True" />
@@ -30,7 +31,6 @@
         <DataGridTextColumn Header="Personages" Binding="{Binding Characters.Count}"
             IsReadOnly="True" />
       </DataGrid.Columns>
-      <!--<DataGridRow Style="{StaticResource ValidationRow}" />-->
     </DataGrid>
     <StackPanel Grid.Column="1" Grid.Row="0">
       <Button Click="BtnDelete_Click" Content="Supprimer" Margin="5" />

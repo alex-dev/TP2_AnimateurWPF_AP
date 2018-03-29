@@ -74,6 +74,8 @@ namespace TP2_AnimateursWPF_AP.Services
         /// <returns>Is <paramref name="phone"/> valid</returns>
         public bool Validate(string phone)
         {
+            phone = new string(phone.Where(Char.IsDigit).ToArray());
+
             var validFormats = from format in Formats
                                where format.Value.Item1.Match(phone).Success
                                select format.Value;

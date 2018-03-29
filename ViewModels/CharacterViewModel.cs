@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using TP2_AnimateursWPF_AP.Models;
+using TP2_AnimateursWPF_AP.Validators;
 
 namespace TP2_AnimateursWPF_AP.ViewModels
 {
-    public class CharacterViewModel : INotifyPropertyChanged
+    public class CharacterViewModel : INotifyPropertyChanged, IValidable
     {
         #region Internal Data
         private Personnage Character { get; set; }
@@ -19,6 +20,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         #endregion
 
         #region Data
+
+        public HashSet<Ability> AllAbilities { get; private set; }
+        public HashSet<Race> AllRaces { get; private set; }
 
         public string Name
         {
@@ -85,7 +89,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         }
         public Race Race
         {
-            get { return Character?.Race ?? Race; }
+            get { return Character?.Race ?? _Race; }
             set
             {
                 if (Character is null)
@@ -102,7 +106,7 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         }
         public ICollection<Ability> Abilities
         {
-            get { return Character.LstHabiletes; }
+            get { return Character?.LstHabiletes ?? _Abilities ?? (_Abilities = new List<Ability>()); }
         }
 
         #endregion
@@ -116,7 +120,20 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         /// <param name="animator">Animateur lié au vue modèle</param>
         public CharacterViewModel(Personnage character)
         {
+            AllAbilities = Ability.Abilities;
+            AllRaces = Race.Races;
             Character = character;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public Personnage Extract()
+        {
+            return IsValid(null)
+                ? Character
+                : throw new InvalidOperationException("Character is in an invalid state.");
         }
 
         #endregion
@@ -127,12 +144,21 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (Character is null && !(_Name is null || _HitPoints is null || _DamagePoints is null))
+            if (Character is null && IsValid(null))
             {
                 Character = new Personnage(_Name, (int)_HitPoints, (int)_DamagePoints, _Race, new List<Ability>());
             }
 
             PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region IValidable
+
+        public bool IsValid(CultureInfo culture)
+        {
+            return !(string.IsNullOrWhiteSpace(Name) || HitPoints is null || DamagePoints is null || Race is null);
         }
 
         #endregion

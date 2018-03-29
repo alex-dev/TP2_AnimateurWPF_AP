@@ -76,6 +76,9 @@
     </ApplicationDefinition>
     <Compile Include="Validators\IValidable.cs" />
     <Compile Include="Validators\ValidableValidationRule.cs" />
+    <Compile Include="Views\CharacterDetails.xaml.cs">
+      <DependentUpon>CharacterDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CharacterListWindow.xaml.cs">
       <DependentUpon>CharacterListWindow.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <DependentUpon>AnimatorsListWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\CharacterDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CharacterListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace TP2_AnimateursWPF_AP.Validators
 {
@@ -8,7 +9,7 @@ namespace TP2_AnimateursWPF_AP.Validators
         public override ValidationResult Validate(object value, CultureInfo culture)
         {
             return new ValidationResult(
-                (value as IValidable)?.IsValid(culture) ?? false,
+                (((BindingGroup)value).Items[0] as IValidable)?.IsValid(culture) ?? false,
                 null);
         }
     }

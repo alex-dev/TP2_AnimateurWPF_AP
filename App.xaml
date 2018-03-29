@@ -7,24 +7,21 @@
   <Application.Resources>
     <ViewModels:AnimatorsViewModel x:Key="AnimatorsViewModel" />
     <ViewModels:AnimatorViewModel x:Key="AnimatorViewModel" />
+    <ViewModels:CharactersViewModel x:Key="CharactersViewModel" />
+    <ViewModels:CharacterViewModel x:Key="CharacterViewModel" />
     <Validations:ValidableValidationRule x:Key="ValidableValidationRule" />
-    <Style x:Key="ValidationBox" TargetType="{x:Type TextBox}">
-      <Style.Triggers>
-        <Trigger Property="Validation.HasError" Value="True">
-          <Setter Property="Background" Value="Red" />
-          <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-              Path=(Validation.Errors)[0].ErrorContent}" />
-        </Trigger>
-      </Style.Triggers>
-    </Style>
-    <Style x:Key="ValidationRow" TargetType="{x:Type DataGridRow}">
-      <Style.Triggers>
-        <Trigger Property="Validation.HasError" Value="True">
-          <Setter Property="Background" Value="Red" />
-          <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-              Path=(Validation.Errors)[0].ErrorContent}" />
-        </Trigger>
-      </Style.Triggers>
+    <Style x:Key="ListboxStyle" TargetType="ListBox">
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="ListBoxItem">
+            <Style.Resources>
+              <SolidColorBrush
+                  x:Key="{x:Static Member=SystemColors.InactiveSelectionHighlightBrushKey}"
+                  Color="{DynamicResource ResourceKey={x:Static Member=SystemColors.HighlightColorKey}}" />
+            </Style.Resources>
+          </Style>
+        </Setter.Value>
+      </Setter>
     </Style>
   </Application.Resources>
 </Application>

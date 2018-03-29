@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,7 +7,7 @@ using TP2_AnimateursWPF_AP.Models;
 namespace TP2_AnimateursWPF_AP.ViewModels
 {
     /// <summary>Vue modèle gérant un ensemble d'animateurs via <see cref="CharacterViewModel"/>.</summary>
-    public class CharactersViewModel
+    public class CharactersViewModel : INotifyCollectionChanged
     {
         #region Internal Data
         private ObservableCollection<CharacterViewModel> _Characters { get; set; }
@@ -23,24 +22,19 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #endregion
 
-        #region Events Forwarding
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged
-        {
-            add { _Characters.CollectionChanged += value; }
-            remove { _Characters.CollectionChanged -= value; }
-        }
-
-        #endregion
-
         #region Constructors
 
-        /// <summary>Constructeur par défaut</summary>
+        /// <summary>Constructeur quand les données sont connues.</summary>
         public CharactersViewModel(IEnumerable<Personnage> data)
         {
             _Characters = new ObservableCollection<CharacterViewModel>(
                 from character in data
                 select new CharacterViewModel(character));
+        }
+
+        public CharactersViewModel()
+        {
+            _Characters = new ObservableCollection<CharacterViewModel>();
         }
 
         #endregion
@@ -50,17 +44,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         /// <summary>Ajoute un animateur à la liste.</summary>
         /// <param name="animator">L'animateur à ajouter</param>
         /// <exception cref="ArgumentException"><paramref name="animator"/> n'est pas valide.</exception>
-        public void Add(CharacterViewModel animator)
+        public void Add(CharacterViewModel character)
         {
-            /*if (animator.Characters is null || animator.FirstName is null
-                || animator.LastName is null || animator.Phone is null)
-            {
-                throw new ArgumentException("Cet animateur n'est pas valide.");
-            }
-            else
-            {
-                _Animators.Add(animator);
-            }*/
+            _Characters.Add(character);
         }
 
         /// <summary>Ajoute un animateur à la liste.</summary>
@@ -75,6 +61,16 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         public void Remove(CharacterViewModel character)
         {
             _Characters.Remove(character);
+        }
+
+        #endregion
+
+        #region INotifyCollectionChanged
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged
+        {
+            add { _Characters.CollectionChanged += value; }
+            remove { _Characters.CollectionChanged -= value; }
         }
 
         #endregion

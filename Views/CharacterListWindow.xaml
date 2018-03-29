@@ -3,16 +3,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Title="Personnages" Height="300" Width="600">
+    xmlns:views="clr-namespace:TP2_AnimateursWPF_AP.Views" mc:Ignorable="d"
+    Title="Personnages" Height="300" Width="750"
+    DataContext="{StaticResource CharactersViewModel}">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" MaxHeight="35" />
+      <RowDefinition Height="4*" />
+    </Grid.RowDefinitions>
     <DataGrid Name="DtgCharacters" ItemsSource="{Binding Characters}"
-        SelectionChanged="DtgCharacters_SelectionChanged" SelectionMode="Single"
-        SelectionUnit="FullRow" AutoGenerateColumns="False" ColumnWidth="*" Margin="5 0"
-        Grid.Column="0">
+        SelectionChanged="DtgCharacters_SelectionChanged"
+        MouseDown="DtgCharacters_MouseDown" SelectionMode="Single" SelectionUnit="FullRow"
+        AutoGenerateColumns="False" ColumnWidth="*" Margin="5 0" Grid.Column="0"
+        Grid.RowSpan="2">
+      <DataGrid.RowValidationRules>
+        <StaticResource ResourceKey="ValidableValidationRule" />
+      </DataGrid.RowValidationRules>
       <DataGrid.Columns>
         <DataGridTextColumn Header="Nom" Binding="{Binding Name}" IsReadOnly="False" />
         <DataGridTextColumn Header="Points de vie" Binding="{Binding HitPoints}"
@@ -22,5 +32,9 @@
         <DataGridTextColumn Header="Race" Binding="{Binding Race}" IsReadOnly="True" />
       </DataGrid.Columns>
     </DataGrid>
+    <StackPanel Grid.Column="1" Grid.Row="0">
+      <Button Click="BtnDelete_Click" Content="Supprimer" Margin="5" />
+    </StackPanel>
+    <views:CharacterDetails x:Name="Details" Grid.Column="1" Grid.Row="1" />
   </Grid>
 </Window>

@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="TP2_AnimateursWPF_AP.Views.CharacterDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:models="clr-namespace:TP2_AnimateursWPF_AP.Models" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="300"
+    DataContext="{StaticResource CharacterViewModel}">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" MaxHeight="115" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+      <DockPanel>
+        <Label Content="_Nom" Target="{Binding ElementName=TxtName}" DockPanel.Dock="Left"
+            Margin="5" />
+        <TextBox Name="TxtName" Text="{Binding Path=Name, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" />
+      </DockPanel>
+      <DockPanel>
+        <Label Content="Points de _Vie" Target="{Binding ElementName=TxtHitPoints}"
+            DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="TxtHitPoints"
+            Text="{Binding Path=HitPoints, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" />
+      </DockPanel>
+      <DockPanel>
+        <Label Content="Points de _Dommage" Target="{Binding ElementName=TxtDamagePoints}"
+            DockPanel.Dock="Left" Margin="5" />
+        <TextBox Name="TxtDamagePoints"
+            Text="{Binding Path=DamagePoints, ValidatesOnExceptions=True}"
+            DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" />
+      </DockPanel>
+    </StackPanel>
+    <DockPanel Grid.Column="0" Grid.Row="1">
+      <Label Content="_Race" Target="{Binding ElementName=LstRace}" DockPanel.Dock="Top"
+          Margin="5" />
+      <ListBox Name="LstRace" ItemsSource="{Binding Path=AllRaces}"
+          SelectedItem="{Binding Race}" Style="{StaticResource ListboxStyle}" />
+    </DockPanel>
+    <DockPanel Grid.Column="2" Grid.Row="1">
+      <Label Content="_Habiletés" Target="{Binding ElementName=LstAbilities}"
+          DockPanel.Dock="Top" Margin="5" />
+      <ListBox Name="LstAbilities" ItemsSource="{Binding Path=AllAbilities}"
+          SelectedItem="{Binding Ability}" SelectionMode="Multiple"
+          Style="{StaticResource ListboxStyle}" />
+    </DockPanel>
+  </Grid>
+</UserControl>
