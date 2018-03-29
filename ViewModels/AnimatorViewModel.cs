@@ -106,6 +106,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #region Methods
 
+        /// <summary>Crée un <see cref="CharactersViewModel"/> correspondant aux personnage.</summary>
+        /// <returns>
+        ///   Item1: Le <see cref="CharactersViewModel"/>.
+        ///   Item2: Un callback à exécuter pour updater avec le nouveau <see cref="CharactersViewModel"/>
+        /// </returns>
         public Tuple<CharactersViewModel, Action<CharactersViewModel>> CreateCharactersViewModel()
         {
             return Tuple.Create<CharactersViewModel, Action<CharactersViewModel>>(
@@ -113,6 +118,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
                 CharactersUpdate);
         }
 
+        /// <summary>Extrait le <see cref="Animateur"/>.</summary>
+        /// <returns>Le <see cref="Animateur"/> wrapper par le <see cref="AnimatorViewModel"/></returns>
+        /// <exception cref="InvalidOperationException">Lancer quand le <see cref="Animateur"/> est invalide.</exception>
         public Animateur Extract()
         {
             return IsValid(null)

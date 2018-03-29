@@ -83,6 +83,11 @@ namespace TP2_AnimateursWPF_AP
             }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
+        }
+
         #endregion
     }
 }

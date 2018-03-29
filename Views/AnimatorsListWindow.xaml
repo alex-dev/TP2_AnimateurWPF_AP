@@ -12,7 +12,7 @@
       <ColumnDefinition Width="2*" />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition Height="1*" MaxHeight="35" />
+      <RowDefinition Height="75" />
       <RowDefinition Height="4*" />
     </Grid.RowDefinitions>
     <DataGrid Name="DtgAnimators" ItemsSource="{Binding Animators}"
@@ -33,6 +33,7 @@
       </DataGrid.Columns>
     </DataGrid>
     <StackPanel Grid.Column="1" Grid.Row="0">
+      <Button Click="Button_Click" Content="Sauvegarder" Margin="5" />
       <Button Click="BtnDelete_Click" Content="Supprimer" Margin="5" />
     </StackPanel>
     <views:AnimatorDetails x:Name="Details" Grid.Column="1" Grid.Row="1" />

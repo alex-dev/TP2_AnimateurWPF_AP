@@ -13,6 +13,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="*" MaxHeight="115" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="35" />
     </Grid.RowDefinitions>
     <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
       <DockPanel>
@@ -36,7 +37,7 @@
             DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" />
       </DockPanel>
     </StackPanel>
-    <DockPanel Grid.Column="0" Grid.Row="1">
+    <DockPanel Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
       <Label Content="_Race" Target="{Binding ElementName=LstRace}" DockPanel.Dock="Top"
           Margin="5" />
       <ListBox Name="LstRace" ItemsSource="{Binding Path=AllRaces}"
@@ -49,6 +50,10 @@
       <ListBox Name="LstAbilities" ItemsSource="{Binding Path=AllAbilities}"
           SelectionChanged="LstAbilities_SelectionChanged" SelectionMode="Multiple"
           Style="{StaticResource ListboxStyle}" />
+    </DockPanel>
+    <DockPanel Grid.Column="1" Grid.Row="2">
+      <Button Click="BtnAbilityAdd_Click" Content="Ajouter" DockPanel.Dock="Right" Margin="5" />
+      <TextBox Name="TxtAbilityAdd" DockPanel.Dock="Left" Margin="5" VerticalAlignment="Center" />
     </DockPanel>
   </Grid>
 </UserControl>

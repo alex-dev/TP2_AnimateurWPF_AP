@@ -32,6 +32,8 @@ namespace TP2_AnimateursWPF_AP
         {
             Animateur.EnregistrerListeAnimateurs(animators.ToList());
             Ability.Save();
+
+            IsDirty = false;
         }
 
         #region Event Handlers

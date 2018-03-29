@@ -160,6 +160,9 @@ namespace TP2_AnimateursWPF_AP.ViewModels
 
         #region Methods
 
+        /// <summary>Extrait le <see cref="Personnage"/>.</summary>
+        /// <returns>Le <see cref="Personnage"/> wrapper par le <see cref="CharacterViewModel"/></returns>
+        /// <exception cref="InvalidOperationException">Lancer quand le <see cref="Personnage"/> est invalide.</exception>
         public Personnage Extract()
         {
             return IsValid(null)
@@ -174,11 +177,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         /// <summary><see cref="ObservableCollection{Ability}.CollectionChanged"/> handler.</summary>
         public void Abilities_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            foreach (Ability ability in e.OldItems)
+            foreach (Ability ability in e.OldItems ?? new List<Ability>())
             {
                 AllAbilities.Remove(AllAbilities.Single(item => ability == item.Item));
             }
-            foreach (Ability ability in e.NewItems)
+            foreach (Ability ability in e.NewItems ?? new List<Ability>())
             {
                 AllAbilities.Add(new Selectable<Ability>(ability));
             }
@@ -187,11 +190,11 @@ namespace TP2_AnimateursWPF_AP.ViewModels
         /// <summary><see cref="ObservableCollection{Race}.CollectionChanged"/> handler.</summary>
         public void Races_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            foreach (Race race in e.OldItems)
+            foreach (Race race in e.OldItems ?? new List<Race>())
             {
                 AllRaces.Remove(AllRaces.Single(item => race == item.Item));
             }
-            foreach (Race race in e.NewItems)
+            foreach (Race race in e.NewItems ?? new List<Race>())
             {
                 AllRaces.Add(new Selectable<Race>(race));
             }

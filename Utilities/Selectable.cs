@@ -3,6 +3,10 @@ using System.Runtime.CompilerServices;
 
 namespace TP2_AnimateursWPF_AP.Utilities
 {
+    /// <summary>
+    ///   Utilisée pour des items de <see cref="ListBox"/>, ce générique sert simplement à wrappé un objet plus complexe.
+    /// </summary>
+    /// <typeparam name="T">Objet à wrapper</typeparam>
     public class Selectable<T> : INotifyPropertyChanged
     {
         private bool isSelected;

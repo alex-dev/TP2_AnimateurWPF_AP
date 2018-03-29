@@ -34,5 +34,10 @@ namespace TP2_AnimateursWPF_AP.Views
                                                                select selectable.Item).ToList();
             }
         }
+
+        private void BtnAbilityAdd_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Ability.Abilities.Add(new Ability(TxtAbilityAdd.Text));
+        }
     }
 }
