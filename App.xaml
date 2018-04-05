@@ -6,9 +6,7 @@
     StartupUri="Views/AnimatorsListWindow.xaml" Startup="Application_Startup">
   <Application.Resources>
     <ViewModels:AnimatorsViewModel x:Key="AnimatorsViewModel" />
-    <ViewModels:AnimatorViewModel x:Key="AnimatorViewModel" />
     <ViewModels:CharactersViewModel x:Key="CharactersViewModel" />
-    <ViewModels:CharacterViewModel x:Key="CharacterViewModel" />
     <Validations:ValidableValidationRule x:Key="ValidableValidationRule" />
     <Style x:Key="ListboxStyle" TargetType="ListBox">
       <Setter Property="ItemContainerStyle">
