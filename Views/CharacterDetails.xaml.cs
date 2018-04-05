@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using TP2_AnimateursWPF_AP.Models;
 using TP2_AnimateursWPF_AP.Utilities;
@@ -35,9 +36,9 @@ namespace TP2_AnimateursWPF_AP.Views
             }
         }
 
-        private void BtnAbilityAdd_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BtnAbilityAdd_Click(object sender, RoutedEventArgs e)
         {
-            Ability.Abilities.Add(new Ability(TxtAbilityAdd.Text));
+            new AbilitiesListWindow(Ability.Abilities).ShowDialog();
         }
     }
 }

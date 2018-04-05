@@ -51,9 +51,7 @@
           SelectionChanged="LstAbilities_SelectionChanged" SelectionMode="Multiple"
           Style="{StaticResource ListboxStyle}" />
     </DockPanel>
-    <DockPanel Grid.Column="1" Grid.Row="2">
-      <Button Click="BtnAbilityAdd_Click" Content="Ajouter" DockPanel.Dock="Right" Margin="5" />
-      <TextBox Name="TxtAbilityAdd" DockPanel.Dock="Left" Margin="5" VerticalAlignment="Center" />
-    </DockPanel>
+    <Button Click="BtnAbilityAdd_Click" Content="Ajouter" DockPanel.Dock="Right" Margin="5"
+      Grid.Column="1" Grid.Row="2" />
   </Grid>
 </UserControl>
